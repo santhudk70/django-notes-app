@@ -1,6 +1,7 @@
 version : "3.3"
 services :
   web :
-     image : santhoshdk031989/notes-app:latest
+     build:
+     context: .
      ports :
          - "8000:8000"
