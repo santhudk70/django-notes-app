@@ -1,18 +1,17 @@
-pipeline {
-    agent { label 'vinod' }
-
-    libraries {
-        lib('Shared')
-    }
-
-    stages {
-        stage('Hello') {
-            steps {
-                script {
+@Library("Shared") _
+pipeline{
+    
+    agent { label "vinod"}
+            
+    stages{
+        
+        stage("Hello"){
+            steps{
+                script{
                     hello()
                 }
+                }
             }
-        }
         stage("Code"){
             steps{
                 script{
@@ -22,21 +21,23 @@ pipeline {
         }
         stage("Build"){
             steps{
-                
+                script{
                 docker_build("notes-app","latest","santhoshdk031989")
+                }
             }
         }
-        stage("Push to Dockerhub"){
+        stage("Push To Dockerhub"){
             steps{
                 script{
                     docker_push("notes-app","latest","santhoshdk031989")
                 }
-            }
         }
+        }
+        
         stage("Deploy"){
             steps{
-                echo "This is a Deploying the Code"
-                sh "docker compose down && docker compose up -d"
+                echo "This is Deploying the Code"
+                sh "docker compose up -d"
             }
         }
     }
